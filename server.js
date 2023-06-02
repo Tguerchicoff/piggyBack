@@ -8,8 +8,14 @@ const app = express();
 const port = process.env.SERVER_PORT;
 
 
-//midlewares de rutas
+//midlewares
+//----------
+//analizar cuerpo de solicitud como json
+app.use(express.json());
+//rutas
 app.use(routes);
+
+
 
 
 await connectionDb.sync().then(()=>{
