@@ -22,7 +22,7 @@ PlanDeAhorro.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    /*
+    /* no hace falta
     fechaDeCreacion: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -36,6 +36,9 @@ PlanDeAhorro.init(
   }
 );
 
+
+//Establezco la relacion
+//un plan de ahorro pertenece a un usuario
 PlanDeAhorro.belongsTo(User, { foreignKey: 'id_usuario' });
 
 export default PlanDeAhorro;

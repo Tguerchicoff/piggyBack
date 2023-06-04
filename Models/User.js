@@ -1,11 +1,11 @@
 import { DataTypes as DT, Model } from "sequelize";
 import connectionDb from '../connectionDb/connectionDb.js';
-import validator from 'validator';
 import bcrypt from 'bcrypt';
 
 class User extends Model {}
 
 User.init({
+    //la verdad no hace falta, sequalize lo genea solo
     id: {
         type: DT.INTEGER,
         primaryKey: true,
@@ -34,7 +34,7 @@ User.init({
         type: DT.STRING(60),
         allowNull: false,
         set(value) {
-            // Generar y almacenar el hash de la contraseña
+            // Genero y almaceno el hash de la contrasenia usando bcrypt
             const hashedPassword = bcrypt.hashSync(value, 10);
             this.setDataValue('password', hashedPassword);
         }
@@ -43,7 +43,5 @@ User.init({
     sequelize: connectionDb,
     modelName: "User",
 });
-
-
 
 export default User;

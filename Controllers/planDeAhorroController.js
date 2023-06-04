@@ -1,9 +1,10 @@
 import PlanDeAhorro from '../Models/PlanDeAhorro.js';
 import User from '../Models/User.js';
 
-
-const planDeAhorroController = {
-  getAll: async (req, res) => {
+class PlanDeAhorroController {
+  
+  //obtengo todos los planes
+  async getAll(req, res) {
     try {
       const planDeAhorros = await PlanDeAhorro.findAll();
       res.json(planDeAhorros);
@@ -11,9 +12,10 @@ const planDeAhorroController = {
       console.error('Error al obtener los planes de ahorro:', error);
       res.status(500).json({ error: 'Error al obtener los planes de ahorro' });
     }
-  },
+  }
 
-  getById: async (req, res) => {
+  //obtengo plan por id
+  async getById(req, res) {
     try {
       const { id } = req.params;
       const planDeAhorro = await PlanDeAhorro.findByPk(id);
@@ -26,56 +28,61 @@ const planDeAhorroController = {
       console.error('Error al obtener el plan de ahorro:', error);
       res.status(500).json({ error: 'Error al obtener el plan de ahorro' });
     }
-  },
+  }
 
-
-  create: async (req, res) => {
+  //obtengo plan por userId
+  async getPlanByUserId(req, res) {
     try {
-      const { nombre, ingresos, ahorro, cantDias, id_usuario } = req.body;
-  
-      // Verificar si el usuario existe
+      const { id_usuario } = req.params;
+
+      //verifico que el usuario exista
       const user = await User.findByPk(id_usuario);
       if (!user) {
         return res.status(404).json({ mensaje: 'Usuario no encontrado' });
       }
-  
-      // Verificar si el usuario ya tiene un plan de ahorro asignado
-      const existingPlanDeAhorro = await PlanDeAhorro.findOne({
-        where: { id_usuario },
-      });
+
+      const planes = await PlanDeAhorro.findAll({ where: { id_usuario } });
+
+      res.json(planes);
+    } catch (error) {
+      console.error('Error al obtener los planes de ahorro por ID de usuario:', error);
+      res.status(500).json({ error: 'Error al obtener los planes de ahorro por ID de usuario' });
+    }
+  }
+
+  async create(req, res) {
+    try {
+      const { nombre, ingresos, ahorro, cantDias, id_usuario } = req.body;
+
+      //verifico que el usuario exista
+      const user = await User.findByPk(id_usuario);
+      if (!user) {
+        return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+      }
+
+      //verifico que el usuario no tenga plan creado
+      const existingPlanDeAhorro = await PlanDeAhorro.findOne({ where: { id_usuario } });
       if (existingPlanDeAhorro) {
         return res.status(400).json({ mensaje: 'El usuario ya tiene un plan de ahorro asignado' });
       }
-  
-      const newPlanDeAhorro = await PlanDeAhorro.create({
-        nombre,
-        ingresos,
-        ahorro,
-        cantDias,
-        id_usuario,
-      });
+
+      const newPlanDeAhorro = await PlanDeAhorro.create({ nombre, ingresos, ahorro, cantDias, id_usuario });
       res.status(201).json(newPlanDeAhorro);
     } catch (error) {
       console.error('Error al crear el plan de ahorro:', error);
       res.status(500).json({ error: 'Error al crear el plan de ahorro' });
     }
-  },
+  }
 
-
-  
-  update: async (req, res) => {
+  //modifico el plans
+  async update(req, res) {
     try {
-      const { id } = req.body;
-      const { nombre, ingresos, ahorro, cantDias, id_usuario } = req.body; // Agrega id_usuario al destructuring del cuerpo de la solicitud
+      const { id } = req.params;
+      const { nombre, ingresos, ahorro, cantDias, id_usuario } = req.body;
+
       const planDeAhorro = await PlanDeAhorro.findByPk(id);
       if (planDeAhorro) {
-        await planDeAhorro.update({
-          nombre,
-          ingresos,
-          ahorro,
-          cantDias,
-          id_usuario, // Actualiza el valor del campo id_usuario con el valor proporcionado en el cuerpo de la solicitud
-        });
+        await planDeAhorro.update({ nombre, ingresos, ahorro, cantDias, id_usuario });
         res.json(planDeAhorro);
       } else {
         res.status(404).json({ mensaje: 'Plan de ahorro no encontrado' });
@@ -84,11 +91,13 @@ const planDeAhorroController = {
       console.error('Error al actualizar el plan de ahorro:', error);
       res.status(500).json({ error: 'Error al actualizar el plan de ahorro' });
     }
-  },
+  }
 
-  delete: async (req, res) => {
+  //elimino plan por id
+  async delete(req, res) {
     try {
       const { id } = req.params;
+
       const planDeAhorro = await PlanDeAhorro.findByPk(id);
       if (planDeAhorro) {
         await planDeAhorro.destroy();
@@ -100,7 +109,7 @@ const planDeAhorroController = {
       console.error('Error al eliminar el plan de ahorro:', error);
       res.status(500).json({ error: 'Error al eliminar el plan de ahorro' });
     }
-  },
-};
+  }
+}
 
-export default planDeAhorroController;
+export default new PlanDeAhorroController();
