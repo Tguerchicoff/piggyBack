@@ -5,7 +5,7 @@ import planDeAhorroRoutes from './planDeAhorroRoutes.js';
 import gastoRoutes from './gastoRoutes.js';
 import logoutRoutes from './logoutRoutes.js'
 
-import {User, PlanDeAhorro, Gasto} from '../Models/index.js';
+import {User, PlanDeAhorro, Gasto} from '../Models/Index.js';
 
 
 const routes = Router();

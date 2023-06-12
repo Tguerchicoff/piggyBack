@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../Models/User.js';
+import {User} from '../Models/Index.js';
 export const logout = async (req, res) => {
     try {
         //obtengo el token de autorizacion del encabezado de solicitud

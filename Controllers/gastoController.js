@@ -1,5 +1,5 @@
-import Gasto from '../Models/Gasto.js';
-import User from '../Models/User.js';
+import {Gasto} from '../Models/Index.js';
+import {User} from '../Models/Index.js';
 
 class GastoController {
   //obtengo todos los gastos

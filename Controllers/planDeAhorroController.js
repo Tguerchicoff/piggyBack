@@ -1,5 +1,5 @@
-import PlanDeAhorro from '../Models/PlanDeAhorro.js';
-import User from '../Models/User.js';
+import {PlanDeAhorro} from '../Models/Index.js';
+import {User} from '../Models/Index.js';
 
 class PlanDeAhorroController {
   

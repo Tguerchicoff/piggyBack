@@ -1,4 +1,4 @@
-import User from "../Models/User.js";
+import {User} from "../Models/Index.js";
 
 class UserController {
   //obtengo todos los usuarios
