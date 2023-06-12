@@ -54,7 +54,7 @@ class GastoController {
     try {
       const { id_usuario } = req.params;
   
-      //verifico que el usuario exista
+      // Verificar que el usuario exista
       const user = await User.findByPk(id_usuario);
       if (!user) {
         return res.status(404).json({ mensaje: 'Usuario no encontrado' });
@@ -65,9 +65,9 @@ class GastoController {
         attributes: ['costo'], // Solo obtener el campo 'costo'
       });
   
-      const costs = gastos.map((gasto) => gasto.costo);
+      const totalCost = gastos.reduce((sum, gasto) => sum + parseFloat(gasto.costo), 0).toFixed(2);
   
-      res.json(costs);
+      res.json(totalCost);
     } catch (error) {
       console.error('Error al obtener los costos de los gastos por ID de usuario:', error);
       res.status(500).json({ error: 'Error al obtener los costos de los gastos por ID de usuario' });

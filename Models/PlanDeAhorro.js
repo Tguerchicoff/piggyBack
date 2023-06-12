@@ -18,9 +18,10 @@ PlanDeAhorro.init(
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    cantDias: {
-      type: DataTypes.INTEGER,
+    fechaDeFinalizacion: {
+      type: DataTypes.DATE,
       allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
     /* no hace falta
     fechaDeCreacion: {
@@ -28,7 +29,10 @@ PlanDeAhorro.init(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
+
+
     */
+
   },
   {
     sequelize: connectionDb,
@@ -39,6 +43,7 @@ PlanDeAhorro.init(
 
 //Establezco la relacion
 //un plan de ahorro pertenece a un usuario
-PlanDeAhorro.belongsTo(User, { foreignKey: 'id_usuario' });
+//no va aca, va en index
+//PlanDeAhorro.belongsTo(User, { foreignKey: 'id_usuario' });
 
 export default PlanDeAhorro;

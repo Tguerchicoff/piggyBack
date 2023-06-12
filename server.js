@@ -16,6 +16,8 @@ const port = process.env.SERVER_PORT;
 //----------
 //analizar cuerpo de solicitud como json
 app.use(express.json());
+app.use(express.urlencoded({extendend:true}));
+
 //rutas
 app.use(routes);
 

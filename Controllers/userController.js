@@ -2,17 +2,20 @@ import User from "../Models/User.js";
 
 class UserController {
   //obtengo todos los usuarios
-  async getAllUsers(req, res) {
+  getAllUsers = async (req, res) => {
     try {
-      const users = await User.findAll();
+      const users = await User.findAll({
+        attributes:["id", "email"]//al realizar findAll al profe le gusta pasar attributes
+      });
       res.json(users);
     } catch (error) {
       console.error('Error al obtener los usuarios:', error);
       res.status(500).json({ error: 'Error al obtener los usuarios' });
     }
-  }
+  };
+
   //creo un usuario
-  async createUser(req, res) {
+  createUser = async (req, res) => {
     try {
       const { email, password } = req.body;
       const newUser = await User.create({ email, password });
@@ -21,11 +24,10 @@ class UserController {
       console.error('Error al crear el usuario:', error);
       res.status(500).json({ error: 'Error al crear el usuario' });
     }
-  }
-
+  };
 
   //modifico un usuario
-  async updateUser(req, res) {
+  updateUser = async (req, res) => {
     try {
       const { id } = req.params;
       const { email, password } = req.body;
@@ -41,10 +43,10 @@ class UserController {
       console.error('Error al actualizar el usuario:', error);
       res.status(500).json({ error: 'Error al actualizar el usuario' });
     }
-  }
+  };
 
   //elimino un usuario
-  async deleteUser(req, res) {
+  deleteUser = async (req, res) => {
     try {
       const { id } = req.params;
       const user = await User.findByPk(id);
@@ -59,7 +61,7 @@ class UserController {
       console.error('Error al eliminar el usuario:', error);
       res.status(500).json({ error: 'Error al eliminar el usuario' });
     }
-  }
+  };
 }
 
 export default new UserController();

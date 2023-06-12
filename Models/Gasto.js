@@ -15,7 +15,7 @@ Gasto.init(
       allowNull: false,
     },
     prioridad: {
-      type: DataTypes.ENUM('1', '2', '3'),
+      type: DataTypes.ENUM('Alta', 'Media', 'Baja'),
       allowNull: false,
     },
   },
@@ -28,8 +28,10 @@ Gasto.init(
 
 //establezco la relacion entre las tablas
 //un gasto pertenece a un usuario
-Gasto.belongsTo(User, { foreignKey: 'id_usuario' });
+//va en index
+//Gasto.belongsTo(User, { foreignKey: 'id_usuario' });
 //un usuario tiene muchos gastos
-User.hasMany(Gasto, { foreignKey: 'id_usuario' });
+//en index
+//User.hasMany(Gasto, { foreignKey: 'id_usuario' });
 
 export default Gasto;

@@ -34,16 +34,27 @@ class PlanDeAhorroController {
   async getPlanByUserId(req, res) {
     try {
       const { id_usuario } = req.params;
-
-      //verifico que el usuario exista
+  
+      // Verifico que el usuario exista
       const user = await User.findByPk(id_usuario);
       if (!user) {
         return res.status(404).json({ mensaje: 'Usuario no encontrado' });
       }
-
+  
       const planes = await PlanDeAhorro.findAll({ where: { id_usuario } });
-
-      res.json(planes);
+  
+      // Crear un nuevo arreglo con los campos deseados
+      const planesSimplificados = planes.map(plan => {
+        return {
+          nombre: plan.nombre,
+          ingresos: plan.ingresos,
+          ahorro: plan.ahorro,
+          fechaDeCreacion: plan.createdAt,
+          fechaDeFinalizacion: plan.fechaDeFinalizacion
+        };
+      });
+  
+      res.json(planesSimplificados);
     } catch (error) {
       console.error('Error al obtener los planes de ahorro por ID de usuario:', error);
       res.status(500).json({ error: 'Error al obtener los planes de ahorro por ID de usuario' });
@@ -52,7 +63,7 @@ class PlanDeAhorroController {
 
   async create(req, res) {
     try {
-      const { nombre, ingresos, ahorro, cantDias, id_usuario } = req.body;
+      const { nombre, ingresos, ahorro, fechaDeFinalizacion, id_usuario } = req.body;
 
       //verifico que el usuario exista
       const user = await User.findByPk(id_usuario);
@@ -66,7 +77,7 @@ class PlanDeAhorroController {
         return res.status(400).json({ mensaje: 'El usuario ya tiene un plan de ahorro asignado' });
       }
 
-      const newPlanDeAhorro = await PlanDeAhorro.create({ nombre, ingresos, ahorro, cantDias, id_usuario });
+      const newPlanDeAhorro = await PlanDeAhorro.create({ nombre, ingresos, ahorro, fechaDeFinalizacion, id_usuario });
       res.status(201).json(newPlanDeAhorro);
     } catch (error) {
       console.error('Error al crear el plan de ahorro:', error);
