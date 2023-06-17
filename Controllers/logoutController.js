@@ -1,3 +1,4 @@
+import "dotenv/config.js";
 import jwt from 'jsonwebtoken';
 import {User} from '../Models/Index.js';
 export const logout = async (req, res) => {
@@ -12,7 +13,7 @@ export const logout = async (req, res) => {
         }
   
         //decodifico el token (jsonwebtoken)
-        jwt.verify(token, 'secreto', async (error, decoded) => {
+        jwt.verify(token, process.env.JWT_SECRET, async (error, decoded) => {
           if (error) {
             //si da error lo informo con 401
             return res.status(401).json({ mensaje: 'Token de autorización inválido' });

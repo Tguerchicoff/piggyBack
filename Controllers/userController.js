@@ -5,7 +5,7 @@ class UserController {
   getAllUsers = async (req, res) => {
     try {
       const users = await User.findAll({
-        attributes:["id", "email"]//al realizar findAll al profe le gusta pasar attributes
+        attributes:["id", "email"]//al realizar findAll al profe le gusta que se pasen attributes
       });
       res.json(users);
     } catch (error) {
@@ -14,15 +14,36 @@ class UserController {
     }
   };
 
+  //obtengo usuario por ID
+  getUserById = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const user = await User.findByPk(id);
+
+      if (!user) {
+        return res.status(404).json({ error: 'Usuario no encontrado' });
+      }
+
+      res.json(user);
+    } catch (error) {
+      console.error('Error al obtener el usuario:', error);
+      res.status(500).json({ error: 'Error al obtener el usuario' });
+    }
+  };
+
+
   //creo un usuario
   createUser = async (req, res) => {
     try {
       const { email, password } = req.body;
+      
       const newUser = await User.create({ email, password });
-      res.status(201).json(newUser);
+      
+      res.status(201).json({ id: newUser.id, email: newUser.email, createdAt: newUser.createdAt });
     } catch (error) {
       console.error('Error al crear el usuario:', error);
-      res.status(500).json({ error: 'Error al crear el usuario' });
+      const errorMessage = error.message.replace("Validation error: ", ". ");
+      res.status(500).json({ error: errorMessage});
     }
   };
 
@@ -63,5 +84,8 @@ class UserController {
     }
   };
 }
+
+
+
 
 export default new UserController();

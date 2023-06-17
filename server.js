@@ -2,7 +2,10 @@ import express from 'express';
 import routes from './routes/routes.js';
 import connectionDb from './connectionDb/connectionDb.js';
 import cors from 'cors';
-import 'dotenv/config.js'
+//import userSeed from './seed/userSeed.js'
+import 'dotenv/config.js';
+
+
 
 const port = process.env.SERVER_PORT;
 const app = express();
@@ -29,5 +32,5 @@ await connectionDb.sync().then(()=>{
     app.listen(port, ()=>{
         console.log("Server OK http://localhost:8080")
     });
-});
+}) //.then(userSeed)
 

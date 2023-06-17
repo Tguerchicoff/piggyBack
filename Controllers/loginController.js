@@ -1,6 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import {User} from '../Models/Index.js';
+import "dotenv/config.js";
+
+
 
 export const login = async (req, res) => {
   try {
@@ -21,8 +24,8 @@ export const login = async (req, res) => {
 
     
     //genero el token 
-    const token = jwt.sign({ userId: user.id }, 'secreto', { expiresIn: '1h' });
-
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    //con cookie parser se puede pasar la cookie
     //informo si todo salio ok
     res.json({ token, message: 'Inicio de sesión exitoso' });
   } catch (error) {

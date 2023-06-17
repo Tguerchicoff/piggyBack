@@ -10,7 +10,7 @@ class PlanDeAhorroController {
       res.json(planDeAhorros);
     } catch (error) {
       console.error('Error al obtener los planes de ahorro:', error);
-      res.status(500).json({ error: 'Error al obtener los planes de ahorro' });
+      res.status(300).json({ error: 'Error al obtener los planes de ahorro' });
     }
   }
 
