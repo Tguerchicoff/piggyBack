@@ -27,7 +27,9 @@ export const login = async (req, res) => {
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     //con cookie parser se puede pasar la cookie
     //informo si todo salio ok
-    res.json({ token, message: 'Inicio de sesión exitoso' });
+    //por el momento no devuelvo el token
+    //res.json({ token, message: 'Inicio de sesión exitoso' });
+    res.json({ userId: user.id });
   } catch (error) {
     console.error('Error en el inicio de sesión:', error);
     res.status(500).json({ error: 'Error en el inicio de sesión' });
