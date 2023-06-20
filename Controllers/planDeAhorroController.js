@@ -61,6 +61,7 @@ class PlanDeAhorroController {
     }
   }
 
+  //creo un plan
   async create(req, res) {
     try {
       const { nombre, ingresos, ahorro, fechaDeFinalizacion, id_usuario } = req.body;
@@ -84,6 +85,7 @@ class PlanDeAhorroController {
       res.status(500).json({ error: 'Error al crear el plan de ahorro' });
     }
   }
+
 
   //modifico el plans
   async update(req, res) {

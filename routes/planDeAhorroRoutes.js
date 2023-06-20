@@ -4,7 +4,7 @@ import controller from '../Controllers/planDeAhorroController.js';
 
 const router = Router();
 
-router.get('/usuario/:id_usuario', controller.getPlanByUserId);
+router.get('/user/:id_usuario', controller.getPlanByUserId);
 router.get('/', controller.getAll);
 router.get('/:id', controller.getById);
 router.post('/', controller.create);
