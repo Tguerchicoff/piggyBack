@@ -10,6 +10,7 @@ router.get('/:id', controller.getById);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
 router.delete('/:id', controller.delete);
+router.delete('/user/:id_usuario', controller.deleteByUserId);
 
 
 export default router;
