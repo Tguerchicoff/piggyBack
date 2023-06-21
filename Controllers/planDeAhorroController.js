@@ -53,6 +53,7 @@ class PlanDeAhorroController {
         };
       });
 
+      res.setHeader('Cache-Control', 'no-store'); // Desactivar la caché en el lado del cliente
       res.json(planesSimplificados);
     } catch (error) {
       console.error(

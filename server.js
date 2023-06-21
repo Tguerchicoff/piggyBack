@@ -10,6 +10,9 @@ const app = express();
 
 //Middlewares
 app.use(cors());
+app.options('*', cors()) // include before other routes
+
+
 //----------
 //Analizar cuerpo de solicitud como json
 app.use(express.json());
