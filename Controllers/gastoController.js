@@ -7,6 +7,7 @@ class GastoController {
     try {
       const gastos = await Gasto.findAll();
       res.json(gastos);
+
     } catch (error) {
       console.error('Error al obtener los gastos:', error);
       res.status(500).json({ error: 'Error al obtener los gastos' });
@@ -33,15 +34,16 @@ class GastoController {
   async getGastosByUserId(req, res) {
     try {
       const { id_usuario } = req.params;
-
-      //verifico que el usuario exista
+  
+      // Verifico que el usuario exista
       const user = await User.findByPk(id_usuario);
       if (!user) {
         return res.status(404).json({ mensaje: 'Usuario no encontrado' });
       }
-
+  
       const gastos = await Gasto.findAll({ where: { id_usuario } });
-
+  
+      res.setHeader('Cache-Control', 'no-store'); // Desactivar la caché en el lado del cliente
       res.json(gastos);
     } catch (error) {
       console.error('Error al obtener los gastos por ID de usuario:', error);
@@ -66,7 +68,7 @@ class GastoController {
       });
   
       const totalCost = gastos.reduce((sum, gasto) => sum + parseFloat(gasto.costo), 0).toFixed(2);
-  
+      res.setHeader('Cache-Control', 'no-store');
       res.json(totalCost);
     } catch (error) {
       console.error('Error al obtener los costos de los gastos por ID de usuario:', error);

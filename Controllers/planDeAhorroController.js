@@ -33,38 +33,33 @@ class PlanDeAhorroController {
   async getPlanByUserId(req, res) {
     try {
       const { id_usuario } = req.params;
-
+  
       // Verifico que el usuario exista
       const user = await User.findByPk(id_usuario);
       if (!user) {
         return res.status(404).json({ mensaje: "Usuario no encontrado" });
       }
-
-      const planes = await PlanDeAhorro.findAll({ where: { id_usuario } });
-
-      // Crear un nuevo arreglo con los campos deseados
-      const planesSimplificados = planes.map((plan) => {
-        return {
-          nombre: plan.nombre,
-          ingresos: plan.ingresos,
-          ahorro: plan.ahorro,
-          fechaDeCreacion: plan.createdAt,
-          fechaDeFinalizacion: plan.fechaDeFinalizacion,
-        };
-      });
-
+  
+      // Obtengo el plan de ahorro del usuario
+      const plan = await PlanDeAhorro.findOne({ where: { id_usuario } });
+  
+      if (!plan) {
+        return res.status(404).json({ mensaje: "Plan de ahorro no encontrado" });
+      }
+  
+      const planSimplificado = {
+        nombre: plan.nombre,
+        ingresos: plan.ingresos,
+        ahorro: plan.ahorro,
+        fechaDeCreacion: plan.createdAt,
+        fechaDeFinalizacion: plan.fechaDeFinalizacion,
+      };
+  
       res.setHeader('Cache-Control', 'no-store'); // Desactivar la caché en el lado del cliente
-      res.json(planesSimplificados);
+      res.json(planSimplificado);
     } catch (error) {
-      console.error(
-        "Error al obtener los planes de ahorro por ID de usuario:",
-        error
-      );
-      res
-        .status(500)
-        .json({
-          error: "Error al obtener los planes de ahorro por ID de usuario",
-        });
+      console.error("Error al obtener el plan de ahorro por ID de usuario:", error);
+      res.status(500).json({ error: "Error al obtener el plan de ahorro por ID de usuario" });
     }
   }
 
