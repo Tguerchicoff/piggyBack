@@ -65,5 +65,3 @@ La aplicación proporciona una API para gestionar gastos. A continuación se det
 * Joaquin Herreros - [joaherreros] (https://github.com/joaherreros)
 * Matias Federico Martinez - [matiasfmart](https://github.com/matiasfmart)
 * Tomas Guerchicoff - [Tguerchicoff] (https://github.com/Tguerchicoff)
-
-## Expresiones de Gratitud 🎁
